@@ -4,10 +4,16 @@ const TrendingSlider = ({ searchTerm }) => {
  const [trendProducts, setTrendProducts] = useState([]);
 
 useEffect(() => {
-  fetch(`http://localhost:5000/api/products?q=${searchTerm || ''}`)
-    .then(res => res.json())
-    .then(data => setTrendProducts(data))
-    .catch(err => console.error(err));
+  // 500ms ka delay taake har ek letter par API call na jaye (Server crash na ho)
+  const delaySearch = setTimeout(() => {
+    fetch(`http://localhost:5000/api/products?q=${searchTerm || ''}`)
+      .then(res => res.json())
+      .then(data => setTrendProducts(data))
+      .catch(err => console.error("Fetch Error:", err));
+  }, 500);
+
+  // Cleanup function purane timer ko clear karne ke liye
+  return () => clearTimeout(delaySearch);
 }, [searchTerm]);
 
   return (

@@ -23,16 +23,27 @@ function App() {
      <Navbar setSearchTerm={setSearchTerm} />
       <CategoryBar />
       
-      <main className="w-full max-w-[1440px] mx-auto px-1 md:px-2 space-y-2">
-        <HeroSlider />
-        <QuickLinks />
-        <PromoStrip />
-        <DealSection />
-        <BrandBanners />
-       <TrendingSlider searchTerm={searchTerm} />
-        <MassiveProductGrid /> {/* Extra long section injection */}
-        <BottomScroller />     {/* Niche wala slide bar */}
-        <MegaGrid />
+     <main className="w-full max-w-[1440px] mx-auto px-1 md:px-2 space-y-2">
+        {searchTerm ? (
+          /* Jab search bar mein kuch type ho, toh sirf ye backend results top par aayenge */
+          <div className="mt-4">
+            <h2 className="text-[18px] font-black mb-2 px-2">Search Results:</h2>
+            <TrendingSlider searchTerm={searchTerm} />
+          </div>
+        ) : (
+          /* Jab search bar khali ho, toh normal poori website dikhegi */
+          <>
+            <HeroSlider />
+            <QuickLinks />
+            <PromoStrip />
+            <DealSection />
+            <BrandBanners />
+            <TrendingSlider searchTerm={searchTerm} />
+            <MassiveProductGrid />
+            <BottomScroller />
+            <MegaGrid />
+          </>
+        )}
       </main>
 
       <Footer />
